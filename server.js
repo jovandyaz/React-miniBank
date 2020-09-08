@@ -8,7 +8,8 @@ const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/bankDB', { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false })) // Serving a production build 
+app.use(express.static(path.join(__dirname, 'build')))
 app.use(express.static(path.join(__dirname, 'node_modules')))
 
 // Server accepting "foreign" requests. Only required for development mode
@@ -20,6 +21,8 @@ app.use(function (req, res, next) {
 })
 
 app.use('/', api)
+
+app.get('*', function (req, res) { res.sendFile(path.join(__dirname, 'build', 'index.html')) })  // "Catch-all" route handler
 
 const PORT = 8080
 app.listen(process.env.PORT || PORT, () => console.log(`Running server on http://localhost:${PORT}`))

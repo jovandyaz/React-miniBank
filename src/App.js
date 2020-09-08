@@ -14,7 +14,7 @@ class App extends Component {
   }
 
   getData = async () => {
-    const response = await axios.get("http://localhost:8080/transactions")
+    const response = await axios.get("/transactions")
     this.setState({ data: response.data })
     console.log("gettting data...:", this.state.data)
   }
@@ -24,12 +24,12 @@ class App extends Component {
   }
 
   postData = async (dataP) => {
-    await axios.post("http://localhost:8080/transaction", dataP)
+    await axios.post("/transaction", dataP)
     this.getData()
   }
 
   deleteData = async (id) => {
-    await axios.delete(`http://localhost:8080/transaction/${id}`)
+    await axios.delete(`/transaction/${id}`)
     this.getData()
   }
 
